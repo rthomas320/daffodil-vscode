@@ -578,6 +578,21 @@ export function checkBraceOpen(
   return false
 }
 
+export function isZeroLinePos(
+  document: vscode.TextDocument,
+  position: vscode.Position
+) {
+  let lineNum = position.line
+  let triggerText = document.lineAt(lineNum).text
+
+  if (triggerText.trimStart().startsWith('<') &&
+       position.character == 0) {
+      return true
+  }
+
+  return false
+}
+
 export function createCompletionItem(
   e:
     | {

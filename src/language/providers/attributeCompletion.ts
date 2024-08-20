@@ -28,6 +28,7 @@ import {
   getItemsOnLineCount,
   cursorWithinQuotes,
   cursorWithinBraces,
+  isZeroLinePos,
   dfdlDefaultPrefix,
   cursorAfterEquals,
 } from './utils'
@@ -91,6 +92,7 @@ export function getAttributeCompletionProvider() {
           cursorWithinBraces(document, position) ||
           cursorWithinQuotes(document, position) ||
           cursorAfterEquals(document, position) ||
+          isZeroLinePos(document, position) ||
           nearestOpenItem.includes('none')
         ) {
           return undefined

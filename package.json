@@ -78,7 +78,7 @@
     "@vscode/test-electron": "2.3.8",
     "@vscode/vsce": "^3.5.0",
     "chai": "^5.2.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.2.0",
     "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^7.0.0",
@@ -90,7 +90,7 @@
     "prettier": "3.2.5",
     "prettier-plugin-svelte": "3.2.6",
     "run-func": "^3.0.0",
-    "sass": "^1.87.0",
+    "sass": "^1.89.2",
     "svelte": "^3.55.0",
     "svelte-check": "^3.8.6",
     "svelte-loader": "^3.2.4",
@@ -100,11 +100,10 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "5.2.2",
     "vscode-extension-tester": "5.9.1",
-    "webpack": "5.97.1",
+    "webpack": "5.101.1",
     "webpack-cli": "6.0.1"
   },
   "extensionDependencies": [
-    "vincaslt.highlight-matching-tag",
     "wmanth.jar-viewer"
   ],
   "main": "./dist/ext/extension.js",
@@ -118,9 +117,8 @@
     "onCommand:extension.dfdl-debug.debugEditorContents",
     "onCommand:extension.dfdl-debug.appendTDML",
     "onCommand:extension.dfdl-debug.executeTDML",
-    "onCommand:extension.dfdl-debug.copyTDML",
+    "onCommand:extension.dfdl-debug.createTDML",
     "onCommand:extension.dfdl-debug.getTDMLName",
-    "onCommand:extension.dfdl-debug.getTDMLDescription",
     "onCommand:extension.dfdl-debug.getTDMLPath",
     "onCommand:extension.dfdl-debug.getValidatedTDMLPath",
     "onCommand:extension.dfdl-debug.getValidatedTDMLCopyPath",
@@ -273,7 +271,7 @@
           "when": "resourceLangId == tdml"
         },
         {
-          "command": "extension.dfdl-debug.copyTDML",
+          "command": "extension.dfdl-debug.createTDML",
           "when": "resourceLangId == dfdl"
         }
       ],
@@ -295,7 +293,7 @@
           "when": "resourceLangId == tdml"
         },
         {
-          "command": "extension.dfdl-debug.copyTDML",
+          "command": "extension.dfdl-debug.createTDML",
           "when": "resourceLangId == dfdl"
         },
         {
@@ -378,10 +376,11 @@
         "enablement": "!inDebugMode"
       },
       {
-        "command": "extension.dfdl-debug.copyTDML",
-        "title": "Copy TDML File",
+        "command": "extension.dfdl-debug.createTDML",
+        "title": "Create TDML File",
         "category": "Daffodil Debug",
-        "enablement": "!inDebugMode"
+        "enablement": "!inDebugMode",
+        "tooltip": "testing123"
       },
       {
         "command": "extension.dfdl-debug.toggleFormatting",
@@ -572,21 +571,15 @@
                     "enum": [
                       "none",
                       "generate",
-                      "append",
                       "execute"
                     ],
                     "default": "generate",
-                    "description": "TDML Case Action (none | generate | append | exectute)"
+                    "description": "TDML Case Action (none | generate | exectute)"
                   },
                   "name": {
                     "type": "string",
-                    "default": "${command:AskForTDMLName}",
+                    "default": "",
                     "description": "TDML Case Name"
-                  },
-                  "description": {
-                    "type": "string",
-                    "default": "${command:AskForTDMLDescription}",
-                    "description": "TDML Case Description"
                   },
                   "path": {
                     "type": "string",
@@ -830,8 +823,6 @@
         "variables": {
           "AskForSchemaName": "extension.dfdl-debug.getSchemaName",
           "AskForDataName": "extension.dfdl-debug.getDataName",
-          "AskForTDMLName": "extension.dfdl-debug.getTDMLName",
-          "AskForTDMLDescription": "extension.dfdl-debug.getTDMLDescription",
           "AskForTDMLPath": "extension.dfdl-debug.getTDMLPath",
           "AskForValidatedTDMLPath": "extension.dfdl-debug.getValidatedTDMLPath",
           "AskForValidatedTDMLCopyPath": "extension.dfdl-debug.getValidatedTDMLCopyPath"

@@ -496,16 +496,12 @@ class LaunchWizard {
     })
 
     let tdmlActionSelect = 'none'
-    let tdmlActions = ['none', 'generate', 'append', 'execute']
+    let tdmlActions = ['none', 'generate', 'execute']
     let tdmlAction =
       'tdmlConfig' in defaultValues ? defaultValues.tdmlConfig['action'] : null
     let tdmlName =
       'tdmlConfig' in defaultValues && defaultValues.tdmlConfig['name']
         ? defaultValues.tdmlConfig['name']
-        : ''
-    let tdmlDescription =
-      'tdmlConfig' in defaultValues && defaultValues.tdmlConfig['description']
-        ? defaultValues.tdmlConfig['description']
         : ''
     let tdmlPath =
       'tdmlConfig' in defaultValues && defaultValues.tdmlConfig['path']
@@ -733,16 +729,13 @@ class LaunchWizard {
 
       <div id="tdmlActionDiv" class="setting-div">
         <p>TDML Action:</p>
-        <p class="setting-description">TDML Action (none | generate | append | execute)</p>
+        <p class="setting-description">TDML Action (none | generate | execute)</p>
         <select onChange="updateTDMLAction()" class="file-input" style="width: 200px;" id="tdmlAction">
           ${tdmlActionSelect}
         </select>
 
         <p id="tdmlNameLabel" style="${tdmlNameDesVisOrHiddenStyle}" class="setting-description">TDML Name:</p>
         <input style="${tdmlNameDesVisOrHiddenStyle}" class="file-input" value="${tdmlName}" id="tdmlName">
-
-        <p id="tdmlDescriptionLabel" style="${tdmlNameDesVisOrHiddenStyle}" class="setting-description">TDML Description:</p>
-        <input style="${tdmlNameDesVisOrHiddenStyle}" class="file-input" value="${tdmlDescription}" id="tdmlDescription">
 
         <p id="tdmlPathLabel" style="${tdmlPathVisOrHiddenStyle}" class="setting-description">TDML File Path:</p>
         <input style="${tdmlPathVisOrHiddenStyle}" class="file-input" value="${tdmlPath}" id="tdmlPath">

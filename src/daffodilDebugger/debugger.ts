@@ -21,7 +21,6 @@ import * as path from 'path'
 import { getConfig } from '../utils'
 import { runDebugger, stopDebugger, stopDebugging } from './utils'
 import {
-  getDefaultTDMLTestCaseDescription,
   getDefaultTDMLTestCaseName,
   getTmpTDMLFilePath,
 } from '../tdmlEditor/utilities/tdmlXmlUtils'
@@ -54,49 +53,32 @@ async function getTDMLConfig(
   // If we are doing a TDML execute, these fields will be replaced,
   //   so we don't need to prompt for them now.
   if (config?.tdmlConfig?.action === 'execute') {
-    // Erase the value of `data` so that we aren't prompted for it later
-    // Might need to add `schema` here if we move the `Execute TDML` command
-    //   away from the detected dfdl language in VSCode.
+    // Erase the value of `data` and 'schema.path' so that we aren't prompted for it later
     config.data = ''
     config.schema.path = ''
 
-    if (config?.tdmlConfig?.path === undefined)
-      config.tdmlConfig.path = await vscode.commands.executeCommand(
+    config.tdmlConfig.path =
+      config.tdmlConfig.path ||
+      (await vscode.commands.executeCommand(
         'extension.dfdl-debug.getValidatedTDMLPath'
-      )
+      ))
 
-    if (config?.tdmlConfig?.name === undefined)
-      config.tdmlConfig.name = await vscode.commands.executeCommand(
-        'extension.dfdl-debug.getTDMLName'
-      )
+    if (!config.tdmlConfig.path) return false
 
-    if (config?.tdmlConfig?.description === undefined)
-      config.tdmlConfig.description = await vscode.commands.executeCommand(
-        'extension.dfdl-debug.getTDMLDescription'
-      )
+    config.tdmlConfig.name =
+      config.tdmlConfig.name ||
+      (await vscode.commands.executeCommand(
+        'extension.dfdl-debug.getTDMLName',
+        config.tdmlConfig.path
+      ))
+
+    if (!config.tdmlConfig.name) return false
   }
 
   if (config?.tdmlConfig?.action === 'generate') {
-    if (
-      config?.tdmlConfig?.name === undefined ||
-      config?.tdmlConfig?.name === 'undefined' ||
-      config?.tdmlConfig?.name === ''
-    )
-      config.tdmlConfig.name = getDefaultTDMLTestCaseName()
-
-    if (
-      config?.tdmlConfig?.description === undefined ||
-      config?.tdmlConfig?.description === 'undefined' ||
-      config?.tdmlConfig?.description === ''
-    )
-      config.tdmlConfig.description = getDefaultTDMLTestCaseDescription()
-
-    if (
-      config?.tdmlConfig?.path === undefined ||
-      config?.tdmlConfig?.path === 'undefined' ||
-      config?.tdmlConfig?.path === ''
-    )
-      config.tdmlConfig.path = getTmpTDMLFilePath()
+    config.tdmlConfig.name =
+      config.tdmlConfig.name || getDefaultTDMLTestCaseName()
+    config.tdmlConfig.path = config.tdmlConfig.path || getTmpTDMLFilePath()
   }
 
   if (config?.tdmlConfig?.action !== 'execute' && config.data === '') {
